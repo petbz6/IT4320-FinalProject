@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 import sqlite3
+from eticket import generate_e_ticket_number
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -39,8 +40,7 @@ def reservations():
         passenger_name = first_name
         seat_row = request.form['seat_row']
         seat_column = request.form['seat_column']
-        # Create function for e-ticket generation
-        e_ticket_number = 123
+        e_ticket_number = generate_e_ticket_number(first_name)
         
         conn = get_db_connection()
         cursor = conn.cursor()
