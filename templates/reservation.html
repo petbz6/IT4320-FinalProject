@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Reserve Your Seat</h1>
+<hr>
+<h2>Seating Chart</h2>
+<h3>X = Reserved Seat - O = Available Seat</h3>
+
+<!-- Need to implement dynamic display of the bus seating chart here -->
+
+<!-- Form for seating reservations using get method becuase we need to use this information to approve the users request-->
+<form action="get">
+    <label for="">First Name:</label>
+    <input type="text">
+    <br>
+    <label for="">Last Name:</label>
+    <input type="text">
+<br>
+<br>
+    <select name="" id="">
+        <option value="">Choose a seat:</option>
+        <option value="">option1</option>
+        <option value="">option2</option>
+        <option value="">option3</option>
+    </select>
+<br>
+<br>
+    <select name="" id="">
+        <option value="">Choose a row</option>
+        <option value="">option1</option>
+        <option value="">option2</option>
+        <option value="">option3</option>
+    </select>
+<br>
+<br>
+    <!-- Button for processing for submission -->
+    <input type="submit" value="submit">
+
+</form>
+
+{% endblock %}
