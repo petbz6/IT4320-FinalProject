@@ -16,7 +16,29 @@
 <h2>Seating Chart</h2>
 <h3>X = Reserved Seat - O = Available Seat</h3>
 
-<!-- Need to implement dynamic display of the bus seating chart here -->
+<!-- Render flight chart -->
+<div class="flight-chart-container">
+    <div class="flight-chart-background">
+        <table class="flight-chart-table">
+            {% for row in seat_chart %}
+            <tr>
+                <td>[</td>
+                {% for seat in row %}
+                {% if seat == 0 %}
+                <td>O</td> 
+                {% else %}
+                <td>X</td> 
+                {% endif %}
+                {% if not loop.last %}
+                <td>,</td>
+                {% endif %}
+                {% endfor %}
+                <td>]</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 
 <!-- Form for seating reservations using POST method to submit data to the reservations route -->
 <form method="POST" action="{{ url_for('reservations') }}">

@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 import sqlite3
 from eticket import generate_e_ticket_number
+from FlightChart import flight_chart
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
-app.config["SECRET_KEY"] = 'your secret key'
-app.secret_key = 'your secret key'
 
 # Route for main menu
 @app.route('/', methods=('GET', 'POST'))
@@ -61,7 +59,10 @@ def reservations():
 
         conn.close()
 
-    return render_template('reservation.html', success_message=success_message, error_message=error_message)
+    # Fetch flight chart data
+    seat_chart = flight_chart()
+
+    return render_template('reservation.html', success_message=success_message, error_message=error_message, seat_chart=seat_chart)
 
 # Route for admin menu
 @app.route('/admin-login', methods=['GET', 'POST'])

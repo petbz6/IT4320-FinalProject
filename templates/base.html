@@ -46,12 +46,31 @@
             color: red;
             margin-top: 10px;
         }
+        
+        .flight-chart-container {
+            margin: 10px auto;
+            border-radius: 10px; 
+            margin-top: 20px; 
+            display: flex;
+            justify-content: center; 
+        }
+
+        .flight-chart-background {
+            background-color: #c7c7c7ef;
+            padding: 12px;
+        }
+
+        
+
+        .flight-chart-table td {
+            padding: 5px;
+        }
 
     </style>
 </head>
 <body>
     <!-- Navigation bar for the various pages -->
-    <!-- This is written in base becuase every other page extends this page. Allowing the navigation to remain on screen at all times. -->
+    <!-- This is written in base because every other page extends this page. Allowing the navigation to remain on screen at all times. -->
     <nav>
         <a href="{{ url_for('main_menu') }}">Home</a>
         <a href="{{ url_for('admin') }}">Admin</a>
