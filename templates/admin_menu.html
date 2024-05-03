@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Admin Menu</h1>
+
+<h2>Seating Chart</h2>
+<h3>X = Reserved Seat - O = Available Seat</h3>
+
+<!-- Render flight chart -->
+<div class="flight-chart-container">
+    <div class="flight-chart-background">
+        <table class="flight-chart-table">
+            {% for row in seat_chart %}
+            <tr>
+                <td>[</td>
+                {% for seat in row %}
+                {% if seat == 0 %}
+                <td>O</td> 
+                {% else %}
+                <td>X</td> 
+                {% endif %}
+                {% if not loop.last %}
+                <td>,</td>
+                {% endif %}
+                {% endfor %}
+                <td>]</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!-- Display total sales -->
+<h2>Total Sales</h2>
+<p>Total sales collected: ${{ total_sales }}</p>
+
+{% endblock %}

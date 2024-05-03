@@ -8,20 +8,18 @@ app = Flask(__name__)
 # Route for main menu
 @app.route('/', methods=('GET', 'POST'))
 def main_menu():
-    # If page was requested with POST, get form data
+    error_message=None
     if request.method == 'POST':
-        # Get the form data
         option = request.form.get('option')
-        # Redirect the user to the appropriate page based on the selection
+        
         if option == 'reservations':
             return redirect(url_for('reservations'))
         elif option == 'admin':
             return redirect(url_for('admin'))
-        # If no option is selected, display an error message and remain on the main menu
         else:
-            flash("An option must be selected!")
+            error_message = "An option must be selected!"
 
-    return render_template('main_menu.html')
+    return render_template('main_menu.html', error_message=error_message)
 
 
 # Route for the admin page
@@ -64,25 +62,57 @@ def reservations():
 
     return render_template('reservation.html', success_message=success_message, error_message=error_message, seat_chart=seat_chart)
 
-# Route for admin menu
-@app.route('/admin-login', methods=['GET', 'POST'])
+# Checking admin login
+@app.route('/admin', methods=('GET', 'POST'))
 def admin_login():
     error_message = None
     if request.method == 'POST':
-        admin_username = request.form['admin-username']
-        admin_password = request.form['admin-password']
-        
+        username = request.form.get('username')
+        password = request.form.get('password')
+
         conn = get_db_connection()
         cursor = conn.cursor()  
-        cursor.execute('SELECT * FROM admins WHERE username = ? AND password = ?', (admin_username, admin_password))
+        cursor.execute('SELECT * FROM admins WHERE username = ? AND password = ?', (username, password))
         admin = cursor.fetchone()
         conn.close()
 
         if admin:
-            return redirect(url_for('admin_menu')) # may have to change this depending on what the admin menu gets named
+            return redirect(url_for('admin_menu'))
         else:
             error_message = 'Invalid username/password combination'
-    return render_template('admin_login.html', error_message=error_message)
+    return render_template('admin.html', error_message=error_message)
+
+# Route for admin menu
+@app.route('/admin-menu')
+def admin_menu():
+    seat_chart = flight_chart()
+    total_sales = calculate_total_sales()
+
+    return render_template('admin_menu.html', seat_chart=seat_chart, total_sales=total_sales)
+
+# Cost matrix
+def get_cost_matrix():
+    cost_matrix = [[100, 75, 50, 100] for row in range(12)]
+    return cost_matrix
+
+# Calculate total sales
+def calculate_total_sales():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT seatRow, seatColumn FROM reservations')
+    reservations = cursor.fetchall()
+    conn.close()
+
+    cost_matrix = get_cost_matrix()
+    total_sales = 0
+    for seat_row, seat_column in reservations:
+        seat_row_index = seat_row - 1
+        seat_column_index = seat_column - 1
+
+        if 0 <= seat_row_index < len(cost_matrix) and 0 <= seat_column_index < len(cost_matrix[0]):
+            total_sales += cost_matrix[seat_row_index][seat_column_index]
+
+    return total_sales
 
 
 # Establishes a connection to database 'reservations.db'
