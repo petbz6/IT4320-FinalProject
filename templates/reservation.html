@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Reserve Your Seat</h1>
+<hr>
+{% if success_message %}
+<div class="alert alert-success" role="alert" style="background-color: #f0f0f0e8; color: black;">
+    {{ success_message }}
+</div>
+{% endif %}
+{% if error_message %}
+<div class="alert alert-danger" role="alert">
+    {{ error_message }}
+</div>
+{% endif %}
+<h2>Seating Chart</h2>
+<h3>X = Reserved Seat - O = Available Seat</h3>
+
+<!-- Need to implement dynamic display of the bus seating chart here -->
+
+<!-- Form for seating reservations using POST method to submit data to the reservations route -->
+<form method="POST" action="{{ url_for('reservations') }}">
+    <label for="first_name">First Name:</label>
+    <input type="text" name="first_name" id="first_name">
+    <br>
+    <label for="last_name">Last Name:</label>
+    <input type="text" name="last_name" id="last_name">
+    <br>
+    <br>
+    <select name="seat_row" id="seat_row">
+        <option value="">Choose a row</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+    <br>
+    <br>
+    <select name="seat_column" id="seat_column">
+        <option value="">Choose a seat:</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+    <br>
+    <br>
+    <!-- Button for processing form submission -->
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
