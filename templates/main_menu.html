@@ -12,6 +12,11 @@
 <div class="main-menu-container">
     <h1 class="main-menu-title">IT-4320 Trip Reservation System</h1>
     <h2>Welcome to the IT-4320 reservation system. Use the select box to choose whether to make a reservation or log in as administrator.</h2>
+    {% if error_message %}
+    <div class="error-message">
+        <p>{{ error_message }}</p>
+    </div>
+    {% endif %}
     <form id="main-menu-form" class="menu-form" method="post" action="">
         <select id="option" name="option">
             <option value="">Choose an option</option>
